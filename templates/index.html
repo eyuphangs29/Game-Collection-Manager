@@ -1,6 +1,49 @@
-<h1>Game Collection Manager</h1>
-{% if username %}
-    <p>Welcome, <strong>{{ username }}</strong>! | <a href="/logout">Logout</a></p>
-{% else %}
-    <p>Please <a href="/register">Sign Up</a> to start.</p>
-{% endif %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Game Manager</title>
+</head>
+<body>
+    <h1>Game Collection Manager</h1>
+
+    {% if username %}
+        <p>Welcome, <strong>{{ username }}</strong>! | <a href="/logout">Logout</a></p>
+
+        <hr>
+
+        <h3>Add New Game</h3>
+        <form action="/add_game" method="POST">
+            <input type="text" name="title" placeholder="Game Title" required>
+            <input type="text" name="genre" placeholder="Genre">
+            <select name="status">
+                <option value="Playing">Playing</option>
+                <option value="Completed">Completed</option>
+                <option value="Plan to Play">Plan to Play</option>
+            </select>
+            <button type="submit">Add to List</button>
+        </form>
+
+        <hr>
+
+        <h3>My Collection</h3>
+        <table border="1">
+            <tr>
+                <th>Title</th>
+                <th>Genre</th>
+                <th>Status</th>
+            </tr>
+            {% for game in games %}
+            <tr>
+                <td>{{ game.title }}</td>
+                <td>{{ game.genre }}</td>
+                <td>{{ game.status }}</td>
+            </tr>
+            {% else %}
+            <tr><td colspan="3">No games added yet.</td></tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>Please <a href="/login">Login</a> or <a href="/register">Sign Up</a>.</p>
+    {% endif %}
+</body>
+</html>
