@@ -5,6 +5,7 @@ app = Flask(__name__)
 app.secret_key = 'arel_universitesi_proje_anahtari'
 
 
+
 def get_db_connection():
     """Veritabanı bağlantısı kurar."""
     conn = sqlite3.connect('database.db')

@@ -4,6 +4,7 @@ CREATE TABLE users (
     password TEXT NOT NULL
 );
 
+
 CREATE TABLE games (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER NOT NULL,
