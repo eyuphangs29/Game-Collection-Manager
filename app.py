@@ -6,6 +6,7 @@ app.secret_key = 'arel_universitesi_proje_anahtari'
 
 
 def get_db_connection():
+    """Veritabanı bağlantısı kurar."""
     conn = sqlite3.connect('database.db')
     conn.row_factory = sqlite3.Row
     return conn
@@ -13,13 +14,14 @@ def get_db_connection():
 
 @app.route('/')
 def index():
+    """Ana Sayfa: Oyunları listeler."""
     username = session.get('username')
     user_id = session.get('user_id')
     games = []
 
-    # US3: Eğer kullanıcı giriş yapmışsa, sadece onun oyunlarını getir
     if user_id:
         db = get_db_connection()
+        # US3: Kullanıcının oyunlarını ham SQL ile çekiyoruz
         games = db.execute('SELECT * FROM games WHERE user_id = ?', (user_id,)).fetchall()
         db.close()
 
@@ -28,6 +30,7 @@ def index():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+    """Kayıt olma mantığı."""
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -35,12 +38,11 @@ def register():
         try:
             db.execute("INSERT INTO users (username, password) VALUES (?, ?)", (username, password))
             db.commit()
-            # Kayıt sonrası otomatik login
             user = db.execute('SELECT id FROM users WHERE username = ?', (username,)).fetchone()
             session['username'] = username
             session['user_id'] = user['id']
             return redirect(url_for('index'))
-        except:
+        except sqlite3.IntegrityError:
             return "Username already exists!"
         finally:
             db.close()
@@ -49,6 +51,7 @@ def register():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    """Giriş yapma mantığı."""
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -66,25 +69,38 @@ def login():
 
 @app.route('/add_game', methods=['POST'])
 def add_game():
-    # US2: Yeni oyun ekleme mantığı
+    """Oyun Ekleme: Form verilerini SQL ile kaydeder."""
     if 'user_id' not in session:
         return redirect(url_for('login'))
 
-    title = request.form['title']
-    genre = request.form['genre']
-    status = request.form['status']
+    # Formdan gelen veriler
+    title = request.form.get('title')
+    genre = request.form.get('genre')
+    status = request.form.get('status')
+
+    # Rating kontrolü
+    rating_raw = request.form.get('rating')
+    rating = int(rating_raw) if rating_raw and rating_raw.isdigit() else 0
+
+    review_content = request.form.get('rewiew', '')
+
     user_id = session['user_id']
 
     db = get_db_connection()
-    db.execute('INSERT INTO games (user_id, title, genre, status) VALUES (?, ?, ?, ?)',
-               (user_id, title, genre, status))
+    # US2: Ham SQL sorgusu
+    db.execute('''
+        INSERT INTO games (user_id, title, genre, status, rating, review) 
+        VALUES (?, ?, ?, ?, ?, ?)
+    ''', (user_id, title, genre, status, rating, review_content))
     db.commit()
     db.close()
+
     return redirect(url_for('index'))
 
 
 @app.route('/logout')
 def logout():
+    """Çıkış yapma."""
     session.clear()
     return redirect(url_for('index'))
 

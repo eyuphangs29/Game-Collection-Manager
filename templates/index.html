@@ -1,46 +1,77 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Game Manager</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="wicth=device-width, inital-scale=1.0">
+    <title>Game Collection Manager</title>
 </head>
 <body>
     <h1>Game Collection Manager</h1>
-
     {% if username %}
         <p>Welcome, <strong>{{ username }}</strong>! | <a href="/logout">Logout</a></p>
-
         <hr>
-
-        <h3>Add New Game</h3>
+        <h3>Add a New Game</h3>
         <form action="/add_game" method="POST">
             <input type="text" name="title" placeholder="Game Title" required>
-            <input type="text" name="genre" placeholder="Genre">
+
+            <select name="genre">
+                <option value="Choose Genre">Choose Genre</option>
+                <option value="RPG">RPG</option>
+                <option value="Action">Action</option>
+                <option value="JRPG">JRPG</option>
+                <option value="Sport">Sport</option>
+            </select>
+
             <select name="status">
                 <option value="Playing">Playing</option>
                 <option value="Completed">Completed</option>
-                <option value="Plan to Play">Plan to Play</option>
+                <option value="Plan to play">Plan to Play</option>
             </select>
-            <button type="submit">Add to List</button>
-        </form>
 
+            <select name="rating">
+                <option value="0">Rating (0-5)</option>
+                <option value="1">⭐</option>
+                <option value="2">⭐⭐</option>
+                <option value="3">⭐⭐⭐</option>
+                <option value="4">⭐⭐⭐⭐</option>
+                <option value="5">⭐⭐⭐⭐⭐</option>
+            </select>
+            <br><br>
+
+            <textarea name="rewiew" placeholder="Write a short rewiew..." rows="2" style="width: 300px;"></textarea>
+            <br><br>
+
+            <button type="submit">Add to Collection</button>
+        </form>
         <hr>
 
         <h3>My Collection</h3>
-        <table border="1">
-            <tr>
-                <th>Title</th>
-                <th>Genre</th>
-                <th>Status</th>
-            </tr>
+        <table border="1" cellpadding="10" style="border-collapse: collapse; width: 100%;">
+            <thead>
+                <tr style="background-color: #f2f2f2;">
+                    <th>Title</th>
+                    <th>Genre</th>
+                    <th>Status</th>
+                    <th>Rating</th>
+                    <th>Review</th>
+                </tr>
+            </thead>
+            <tbody>
             {% for game in games %}
-            <tr>
-                <td>{{ game.title }}</td>
-                <td>{{ game.genre }}</td>
-                <td>{{ game.status }}</td>
-            </tr>
+                <tr>
+                    <td>{{ game.title }}</td>
+                    <td>{{ game.genre }}</td>
+                    <td>{{ game.status }}</td>
+                    <td>
+                        {{ "⭐" * game.rating if game.rating and game.rating > 0 else "-" }}                    </td>
+                    <td>{{ game.rewiew }}</td>
+                </tr>
             {% else %}
-            <tr><td colspan="3">No games added yet.</td></tr>
+                <tr>
+                    <td colspan="5" style="text-align: center;">No games added yet. Start by adding one!</td>
+                </tr>
             {% endfor %}
+            </tbody>
         </table>
     {% else %}
         <p>Please <a href="/login">Login</a> or <a href="/register">Sign Up</a>.</p>

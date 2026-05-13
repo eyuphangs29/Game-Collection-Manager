@@ -11,6 +11,7 @@ def init_db():
         password TEXT NOT NULL
     )''')
 
+    # Games tablosu
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS games (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -18,14 +19,14 @@ def init_db():
         title TEXT NOT NULL,
         genre TEXT,
         status TEXT DEFAULT 'Playing',
-        rating INTEGER,
-        FOREIGN KEY (user_id) REFERENCES users (id)
+        rating INTEGER DEFAULT 0,
+        review TEXT,  -- BURASI 'review' OLDU (v ile)
+        FOREIGN KEY (user_id) REFERENCES users (id) 
     )''')
 
     conn.commit()
     conn.close()
-    print("Veritabanı başarıyla oluşturuldu!")
-
+    print("The database structure has been updated!")
 
 if __name__ == '__main__':
     init_db()
