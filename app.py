@@ -1,5 +1,7 @@
 import sqlite3
 from flask import Flask, render_template, request, session, redirect, url_for
+from logic import validate_game_entry
+
 
 app = Flask(__name__)
 app.secret_key = 'arel_universitesi_proje_anahtari'
@@ -84,6 +86,9 @@ def add_game():
     rating = int(rating_raw) if rating_raw and rating_raw.isdigit() else 0
 
     review_content = request.form.get('review', '')
+
+    if not validate_game_entry(title, rating):
+        return "Invalid data entry!", 400
 
     user_id = session['user_id']
 
