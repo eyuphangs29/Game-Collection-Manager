@@ -1,0 +1,118 @@
+body {
+    background-color: #121212;
+    color: #e0e0e0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 40px;
+}
+
+h1, h3 {
+    color: #00a4ff;
+    border-bottom: 2px solid #333;
+    padding-bottom: 10px;
+}
+
+a {
+    color: #00d2ff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+input, select, textarea {
+    background-color: #1e1e1e;
+    border: 1px solid #333;
+    color: white;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+button {
+    background-color: #00a4ff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+button:hover {
+    background-color: #007cc0;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #1e1e1e;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #333;
+}
+
+th {
+    background-color: #252525;
+    color: #00a4ff;
+}
+
+tr:hover {
+    background-color: #2a2a2a;
+}
+
+.main-entry-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-top: 50px;
+}
+
+.main-entry-container p {
+    font-size: 1.2em;
+    margin-bottom: 25px;
+    color: #e0e0e0;
+}
+
+.button-group-landing {
+    display: flex;
+    gap: 20px;
+}
+.glowing-btn-wrapper {
+    display: inline-block;
+    padding: 10px 30px;
+    border-radius: 5px;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+}
+
+.blue-glowing-btn {
+    border: 2px solid cyan;
+    color: cyan !important;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+}
+
+.blue-glowing-btn:hover {
+    background-color: rgba(0, 255, 255, 0.2);
+    box-shadow: 0 0 20px rgba(0, 255, 255, 1);
+    color: white !important;
+}
+
+.yellow-glowing-btn {
+    border: 2px solid #FFD700;
+    color: #FFD700 !important;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+.yellow-glowing-btn:hover {
+    background-color: rgba(255, 215, 0, 0.2);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 1);
+    color: #333 !important;
+}

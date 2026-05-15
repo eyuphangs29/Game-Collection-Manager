@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Game Collection Manager</title>
@@ -90,7 +92,18 @@
         </table>
 
     {% else %}
-        <p>Please <a href="/login">Login</a> or <a href="/register">Sign Up</a> to manage your collection.</p>
+        <div class="main-entry-container">
+            <p>Please use the options below to manage your collection.</p>
+            <div class="button-group-landing">
+                <a href="/login" class="glowing-btn-wrapper blue-glowing-btn">
+                    🔑 Login
+                </a>
+
+                <a href="/register" class="glowing-btn-wrapper yellow-glowing-btn">
+                    ➕ Sign Up
+                </a>
+            </div>
+        </div>
     {% endif %}
 
 </body>
