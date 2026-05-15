@@ -83,7 +83,7 @@ def add_game():
     rating_raw = request.form.get('rating')
     rating = int(rating_raw) if rating_raw and rating_raw.isdigit() else 0
 
-    review_content = request.form.get('rewiew', '')
+    review_content = request.form.get('review', '')
 
     user_id = session['user_id']
 
@@ -98,6 +98,16 @@ def add_game():
 
     return redirect(url_for('index'))
 
+@app.route('/delete_game/<int:game_id>')
+def delete_game(game_id):
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+
+    db = get_db_connection()
+    db.execute('DELETE FROM games where id = ? AND user_id = ?',(game_id, session['user_id']))
+    db.commit()
+    db.close()
+    return redirect(url_for('index'))
 
 @app.route('/logout')
 def logout():

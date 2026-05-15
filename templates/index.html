@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="wicth=device-width, inital-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Game Collection Manager</title>
 </head>
 <body>
@@ -13,7 +13,6 @@
         <h3>Add a New Game</h3>
         <form action="/add_game" method="POST">
             <input type="text" name="title" placeholder="Game Title" required>
-
             <select name="genre">
                 <option value="Choose Genre">Choose Genre</option>
                 <option value="RPG">RPG</option>
@@ -21,13 +20,11 @@
                 <option value="JRPG">JRPG</option>
                 <option value="Sport">Sport</option>
             </select>
-
             <select name="status">
                 <option value="Playing">Playing</option>
                 <option value="Completed">Completed</option>
                 <option value="Plan to play">Plan to Play</option>
             </select>
-
             <select name="rating">
                 <option value="0">Rating (0-5)</option>
                 <option value="1">⭐</option>
@@ -37,14 +34,11 @@
                 <option value="5">⭐⭐⭐⭐⭐</option>
             </select>
             <br><br>
-
-            <textarea name="rewiew" placeholder="Write a short rewiew..." rows="2" style="width: 300px;"></textarea>
+            <textarea name="review" placeholder="Write a short review..." rows="2" style="width: 300px;"></textarea>
             <br><br>
-
             <button type="submit">Add to Collection</button>
         </form>
         <hr>
-
 
         <h3>My Collection</h3>
         <table border="1" cellpadding="10" style="border-collapse: collapse; width: 100%;">
@@ -55,6 +49,7 @@
                     <th>Status</th>
                     <th>Rating</th>
                     <th>Review</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -63,13 +58,17 @@
                     <td>{{ game.title }}</td>
                     <td>{{ game.genre }}</td>
                     <td>{{ game.status }}</td>
+                    <td>{{ "⭐" * game.rating if game.rating and game.rating > 0 else "-" }}</td>
+                    <td>{{ game.review }}</td>
                     <td>
-                        {{ "⭐" * game.rating if game.rating and game.rating > 0 else "-" }}                    </td>
-                    <td>{{ game.rewiew }}</td>
+                        <a href="/delete_game/{{ game.id }}"
+                           onclick="return confirm('Are you sure you want to delete this game?')"
+                           style="color: red; text-decoration: none; font-weight: bold;">Delete</a>
+                    </td>
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="5" style="text-align: center;">No games added yet. Start by adding one!</td>
+                    <td colspan="6" style="text-align: center;">No games added yet. Start by adding one!</td>
                 </tr>
             {% endfor %}
             </tbody>
