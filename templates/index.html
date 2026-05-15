@@ -7,12 +7,15 @@
 </head>
 <body>
     <h1>Game Collection Manager</h1>
+
     {% if username %}
         <p>Welcome, <strong>{{ username }}</strong>! | <a href="/logout">Logout</a></p>
         <hr>
+
         <h3>Add a New Game</h3>
         <form action="/add_game" method="POST">
             <input type="text" name="title" placeholder="Game Title" required>
+
             <select name="genre">
                 <option value="Choose Genre">Choose Genre</option>
                 <option value="RPG">RPG</option>
@@ -20,11 +23,13 @@
                 <option value="JRPG">JRPG</option>
                 <option value="Sport">Sport</option>
             </select>
+
             <select name="status">
                 <option value="Playing">Playing</option>
                 <option value="Completed">Completed</option>
                 <option value="Plan to play">Plan to Play</option>
             </select>
+
             <select name="rating">
                 <option value="0">Rating (0-5)</option>
                 <option value="1">⭐</option>
@@ -38,6 +43,7 @@
             <br><br>
             <button type="submit">Add to Collection</button>
         </form>
+
         <hr>
 
         <h3>My Collection</h3>
@@ -57,13 +63,22 @@
                 <tr>
                     <td>{{ game.title }}</td>
                     <td>{{ game.genre }}</td>
-                    <td>{{ game.status }}</td>
+                    <td>
+                        <strong>{{ game.status }}</strong>
+                    </td>
                     <td>{{ "⭐" * game.rating if game.rating and game.rating > 0 else "-" }}</td>
                     <td>{{ game.review }}</td>
                     <td>
+                        <a href="/update_status/{{ game.id }}"
+                           style="color: #007bff; text-decoration: none; font-weight: bold; margin-right: 15px;">
+                           🔄 Change Status
+                        </a>
+
                         <a href="/delete_game/{{ game.id }}"
                            onclick="return confirm('Are you sure you want to delete this game?')"
-                           style="color: red; text-decoration: none; font-weight: bold;">Delete</a>
+                           style="color: red; text-decoration: none; font-weight: bold;">
+                           Delete
+                        </a>
                     </td>
                 </tr>
             {% else %}
@@ -73,8 +88,10 @@
             {% endfor %}
             </tbody>
         </table>
+
     {% else %}
-        <p>Please <a href="/login">Login</a> or <a href="/register">Sign Up</a>.</p>
+        <p>Please <a href="/login">Login</a> or <a href="/register">Sign Up</a> to manage your collection.</p>
     {% endif %}
+
 </body>
 </html>

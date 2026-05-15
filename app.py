@@ -114,6 +114,23 @@ def delete_game(game_id):
     db.close()
     return redirect(url_for('index'))
 
+@app.route('/update_status/<int:game_id>')
+def update_status(game_id):
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+
+    db = get_db_connection()
+    game = db.execute('SELECT status FROM games WHERE id = ? AND user_id = ?',
+                      (game_id, session['user_id'])).fetchone()
+    if game:
+        new_status = "Completed" if game['status'] == "Playing" else "Playing"
+        db.execute('UPDATE games SET status = ? WHERE id = ? AND user_id = ?',
+                   (new_status, game_id, session['user_id']))
+        db.commit()
+
+    db.close()
+    return redirect(url_for('index'))
+
 @app.route('/logout')
 def logout():
     """Çıkış yapma."""
