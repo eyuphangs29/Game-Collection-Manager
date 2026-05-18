@@ -2,18 +2,14 @@ import sqlite3
 from flask import Flask, render_template, request, session, redirect, url_for
 from logic import validate_game_entry
 
-
 app = Flask(__name__)
 app.secret_key = 'arel_universitesi_proje_anahtari'
-
-
 
 def get_db_connection():
     """Veritabanı bağlantısı kurar."""
     conn = sqlite3.connect('database.db')
     conn.row_factory = sqlite3.Row
     return conn
-
 
 @app.route('/')
 def index():
@@ -29,7 +25,6 @@ def index():
         db.close()
 
     return render_template('index.html', username=username, games=games)
-
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -51,7 +46,6 @@ def register():
             db.close()
     return render_template('register.html')
 
-
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     """Giriş yapma mantığı."""
@@ -68,7 +62,6 @@ def login():
             return redirect(url_for('index'))
         return "Invalid credentials!"
     return render_template('login.html')
-
 
 @app.route('/add_game', methods=['POST'])
 def add_game():
